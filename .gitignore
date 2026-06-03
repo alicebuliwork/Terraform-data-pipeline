@@ -1,1 +1,12 @@
-terrafaorm/.terraform/
+# Terraform internal files (VERY IMPORTANT)
+terraform/.terraform/
+
+# State files (never commit)
+*.tfstate
+*.tfstate.*
+
+# Crash logs
+crash.log
+
+# Plan files (optional)
+*.tfplan
