@@ -1,3 +1,4 @@
+/*
 module "networking" {
   source = "./modules/networking"
 
@@ -9,4 +10,10 @@ module "kafka" {
   source = "./modules/kafka"
   subnet_id = module.networking.private_subnet_id
   ami_id = "ami-00263659a97a6c29c"
+}
+*/
+module "s3tables"{
+  source = "./modules/s3tables"
+  bucket_name = "alice-orders-table"
+  namespace   = "orders"
 }

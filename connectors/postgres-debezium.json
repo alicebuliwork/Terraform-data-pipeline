@@ -1,0 +1,30 @@
+{
+    "name": "postgres-cdc-connector",
+    "config": {
+      "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+      "database.hostname": "postgres",
+      "database.port": "5432",
+      "database.user": "postgres",
+      "database.password": "postgres",
+      "database.dbname": "ordersdb",
+      "topic.prefix": "cdc",
+      "plugin.name": "pgoutput",
+      "table.include.list": "public.orders",
+      "slot.name": "debezium_slot",
+      "publication.autocreate.mode": "filtered",
+
+      "transforms": "unwrap,rename",
+
+      "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+      "transforms.unwrap.drop.tombstones": "true",
+      "transforms.unwrap.delete.handling.mode": "rewrite",
+      "transforms.unwrap.add.fields": "op,ts_ms",
+
+      "transforms.rename.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
+      "transforms.rename.renames": "__ts_ms:__source_ts",
+      "decimal.handling.mode": "string",
+      "time.precision.mode": "connect"
+
+    }
+  }
+  

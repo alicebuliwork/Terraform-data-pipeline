@@ -10,3 +10,6 @@ crash.log
 
 # Plan files (optional)
 *.tfplan
+
+# .env file
+docker-compose/.env
