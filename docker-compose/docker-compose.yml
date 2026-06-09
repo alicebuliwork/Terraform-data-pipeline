@@ -43,6 +43,19 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+    command:
+      - bash
+      - -c
+      - |
+        /etc/confluent/docker/run &
+        sleep 30
+        kafka-topics --create \
+          --if-not-exists \
+          --topic cdc.public.orders \
+          --bootstrap-server broker:29092 \
+          --partitions 3 \
+          --replication-factor 1
+        wait
   
   zookeeper:
     image: confluentinc/cp-zookeeper:6.2.13
@@ -95,6 +108,28 @@ services:
 
       CONNECT_PLUGIN_PATH: /usr/share/java,/usr/share/confluent-hub-components
       CONNECT_REST_ADVERTISED_HOST_NAME: connect
+    command:
+      - bash
+      - -c
+      - |
+        /etc/confluent/docker/run &
+
+        until curl -s http://localhost:8083/connectors >/dev/null; do
+          echo "Waiting for Kafka Connect..."
+          sleep 5
+        done
+
+        curl -X POST http://localhost:8083/connectors \
+          -H "Content-Type: application/json" \
+          -d @/connectors/postgres-debezium.json || true
+
+        curl -X POST http://localhost:8083/connectors \
+          -H "Content-Type: application/json" \
+          -d @/connectors/iceberg.json || true
+
+        wait
+    volumes:
+      - ./connectors:/connectors
 
 
   control-center:
