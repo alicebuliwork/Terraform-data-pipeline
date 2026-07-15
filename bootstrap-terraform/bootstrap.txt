@@ -1,3 +1,9 @@
 setup s3 bucket for state 
 GitHub OIDC Identity Provider (Trust)
 OIDC IAM Execution Role & Policy
+
+module "s3tables"{
+  source = "./modules/s3tables"
+  bucket_name = "alice-orders-table"
+  namespace   = "orders"
+}
