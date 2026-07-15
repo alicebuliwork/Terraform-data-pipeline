@@ -35,6 +35,7 @@ jobs:
         working-directory: ./terraform
         run: terraform init -backend=false
 
-      # # 5. Create the S3 Bucket and DynamoDB Table
-      # - name: Terraform Apply
-      #   run: terraform apply -auto-approve
+      # # 5. Create the resources
+      - name: Terraform Apply
+        working-directory: ./terraform
+        run: terraform apply -auto-approve
