@@ -21,7 +21,7 @@ jobs:
 
       # 2. Log into AWS using OIDC (No keys required!)
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v7
+        uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
           role-to-assume: arn:aws:iam::550682681777:role/github-role
           aws-region: eu-north-1
