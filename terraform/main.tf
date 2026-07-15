@@ -1,4 +1,9 @@
 
+module "s3tables"{
+  source = "./modules/s3tables"
+  bucket_name = "alice-orders-table"
+  namespace   = "orders"
+}
 
 module "ec2"{
   source = "./modules/ec2"

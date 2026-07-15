@@ -2,8 +2,31 @@ setup s3 bucket for state
 GitHub OIDC Identity Provider (Trust)
 OIDC IAM Execution Role & Policy
 
-module "s3tables"{
-  source = "./modules/s3tables"
-  bucket_name = "alice-orders-table"
-  namespace   = "orders"
+create a bucket that will be used in the ./terraform/providers.tf in the backend scope, the bucket should be with enabled versioning and will have the state file.
+
+create a  OIDC Identity Provider: OpenID, type. the providor name is https://token.actions.githubusercontent.com and Audience is sts.amazonaws.com
+
+ 
+
+a role with costum trust policy, and attach permissions
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::YOUR_AWS_ACCOUNT_ID:oidc-provider/token.actions.githubusercontent.com"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+        },
+        "StringLike": {
+          "token.actions.githubusercontent.com:sub": "repo:your-github-username/your-repo-name:*"
+        }
+      }
+    }
+  ]
 }
+
