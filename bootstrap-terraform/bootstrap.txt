@@ -1,0 +1,3 @@
+setup s3 bucket for state 
+GitHub OIDC Identity Provider (Trust)
+OIDC IAM Execution Role & Policy
