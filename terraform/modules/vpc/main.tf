@@ -86,7 +86,7 @@ resource "aws_security_group" "debug_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks =  10.101.150.254/32
+    cidr_blocks =  ["10.101.150.254/32"]
   }
 
   # Allow PostgreSQL directly
@@ -94,7 +94,7 @@ resource "aws_security_group" "debug_sg" {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks =  10.101.150.254/32
+    cidr_blocks =  ["10.101.150.254/32"]
   }
 
   # Outbound rule to download package updates
