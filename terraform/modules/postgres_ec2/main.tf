@@ -18,5 +18,6 @@ resource "aws_instance" "postgres_server" {
 
 resource "aws_key_pair" "postgres_key" {
   key_name   = "postgres-ec2-key"
-  public_key = file("../../.ssh/id_rsa.pub") # Path to your local public key file
+  public_key = file("${path.root}/.ssh/id_rsa.pub") # Path to your local public key file
+
 }
