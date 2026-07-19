@@ -9,6 +9,6 @@ output "public_subnet_id" {
 }
 
 output "sg_id" {
-  value       = aws_security_group.debug_sg.id
+  value       = aws_security_group.postgres_sg.id
   description = "The ID of the security group"
 }

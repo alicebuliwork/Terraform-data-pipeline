@@ -76,25 +76,25 @@ resource "aws_route_table_association" "private_assoc" {
 
 # SECURITY GROUPS
 
-resource "aws_security_group" "debug_sg" {
-  name        = "debug-sg"
+resource "aws_security_group" "postgres_sg" {
+  name        = "postgres-sg"
   description = "Allow SSH and PostgreSQL directly from my IP"
   vpc_id      = aws_vpc.main_vpc.id
-
-  # Allow SSH directly
+  
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks =  ["10.101.150.242/32"]
+    cidr_blocks = ["10.101.150.242/32"]
   }
+
 
   # Allow PostgreSQL directly
   ingress {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks =  ["10.101.150.242/32"]
+    cidr_blocks = ["10.0.1.0/24"]
   }
 
   # Outbound rule to download package updates
@@ -105,6 +105,34 @@ resource "aws_security_group" "debug_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = { Name = "debug-sg" }
+  tags = { Name = "postgres-sg" }
+}
+
+resource "aws_security_group" "kafka_broker_sg" {
+  name   = "kafka-broker-sg"
+  vpc_id = aws_vpc.main_vpc.id
+
+  # SSH Access
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["10.101.150.242/32"]
+  }
+
+  # Kafka External Broker Port
+  ingress {
+    from_port   = 9092
+    to_port     = 9092
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.1.0/24"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
