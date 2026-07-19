@@ -32,7 +32,7 @@ jobs:
       # 4. Initialize Terraform (Skip backend during the very first run)
       - name: Terraform Init
         working-directory: ./terraform
-        run: terraform init -backend=false
+        run: terraform init
 
       # # 5. Create the resources
       - name: Terraform Plan
