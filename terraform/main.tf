@@ -20,7 +20,7 @@ module "postgres_ec2"{
   vpc_id = module.vpc.vpc_id
   subnet_id = module.vpc.public_subnet_id
   sg_id = module.vpc.sg_id
-  db_password = postgres
+  db_password = "postgres"
 }
 
 
