@@ -94,9 +94,9 @@ resource "aws_security_group" "postgres_sg" {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks = ["10.0.1.0/24"]
+    cidr_blocks = ["10.0.0.0/16"]
   }
-
+   
   # Outbound rule to download package updates
   egress {
     from_port   = 0
@@ -125,7 +125,7 @@ resource "aws_security_group" "kafka_broker_sg" {
     from_port   = 9092
     to_port     = 9092
     protocol    = "tcp"
-    cidr_blocks = ["10.0.1.0/24"]
+    cidr_blocks = ["10.0.0.0/16"]
   }
 
   egress {
