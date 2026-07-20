@@ -20,4 +20,7 @@ variable "subnet_id" {
   description = "The Subnet ID where the EC2 instance should be launched"
 }
 
-
+variable "sg_id" {
+  type        = string
+  description = "The Security Group ID"
+}
