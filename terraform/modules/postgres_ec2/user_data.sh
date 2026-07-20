@@ -48,5 +48,11 @@ VALUES
 ('Charlie', 200, 'SHIPPED');
 EOF
 
+# Change ownership so the postgres user is allowed to read it
+chown postgres:postgres /tmp/init.sql
+
+# 8. Execute the initialization file script straight into mydb
+sudo -u postgres psql -d mydb -f /tmp/init.sql
+
 # 10. Restart PostgreSQL to finalize the wal_level and network configurations
 systemctl restart postgresql
