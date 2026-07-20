@@ -32,9 +32,21 @@ sudo -u postgres psql -c "CREATE DATABASE mydb;"
 
 # 9. Execute the SQL schema straight into the new 'mydb' database
 # Ensure /tmp/init.sql exists or has been copied over via a file provisioner first
-if [ -f /tmp/init.sql ]; then
-    sudo -u postgres psql -d mydb -f /tmp/init.sql
-fi
+cat << 'EOF' > /tmp/init.sql
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    customer_name VARCHAR(255),
+    amount INT,
+    status VARCHAR(50),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+INSERT INTO orders (customer_name, amount, status)
+VALUES
+('Alice', 120, 'NEW'),
+('Bob', 75, 'PAID'),
+('Charlie', 200, 'SHIPPED');
+EOF
 
 # 10. Restart PostgreSQL to finalize the wal_level and network configurations
 systemctl restart postgresql

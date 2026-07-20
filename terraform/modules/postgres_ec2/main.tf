@@ -9,7 +9,6 @@ resource "aws_instance" "postgres_server" {
 
   user_data = templatefile("./${path.module}/user_data.sh", {
     db_password = var.db_password
-    sql_content = file("${path.module}/init.sql")
   })
 
   tags = {
